@@ -15,25 +15,24 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name = "postagem")
+@Entity  // se for para guarda no banco de dados é usado o @Entity , as duas anotações andam juntas 
+@Table(name = "postagem")  // create table - postagem
 public class Postagem {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id // id primary key 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_incremente
+	private long id; // bigint
 
-	private long id;
+	@NotNull // nãp pode ser vazio
+	@Size(min = 5, max = 100) // 
+	private String titulo; // varchar (100)
 
-	@NotNull
-	@Size(min = 5, max = 100)
-	private String titulo;
-
-	@NotNull
+	@NotNull 
 	@Size(min = 10, max = 500)
 	private String texto;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date date = new java.sql.Date(System.currentTimeMillis());
+	@Temporal(TemporalType.TIMESTAMP) // data_time
+	private Date date = new java.sql.Date(System.currentTimeMillis()); // pega a data atual e preenche automaticamente
 	
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
