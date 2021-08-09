@@ -15,29 +15,33 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity  // se for para guarda no banco de dados é usado o @Entity , as duas anotações andam juntas 
-@Table(name = "postagem")  // create table - postagem
+@Entity
+@Table(name = "tb_postagens")
 public class Postagem {
 
-	@Id // id primary key 
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto_incremente
-	private long id; // bigint
+	@Id  // id primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY)	// auto_incremente
+	private long id;
 
-	@NotNull // nãp pode ser vazio
-	@Size(min = 5, max = 100) // 
-	private String titulo; // varchar (100)
+	@NotNull(message = "O atributo título é obrigatório")  // nãp pode ser vazio
+	@Size(min = 5, max = 100, message = "O atributo título deve conter no mínimo 05 e no máximo 100 caracteres")
+	private String titulo;	 // varchar (100)
 
-	@NotNull 
-	@Size(min = 10, max = 500)
+	@NotNull(message = "O atributo texto é obrigatório")
+	@Size(min = 10, max = 500, message = "O atributo texto deve conter no mínimo 10 e no máximo 500 caracteres")
 	private String texto;
 
-	@Temporal(TemporalType.TIMESTAMP) // data_time
-	private Date date = new java.sql.Date(System.currentTimeMillis()); // pega a data atual e preenche automaticamente
+	@Temporal(TemporalType.TIMESTAMP)	// data_time
+	private Date data = new java.sql.Date(System.currentTimeMillis());		// pega a data atual e preenche automaticamente
 	
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
-
+		
+	@ManyToOne
+	@JsonIgnoreProperties ("postagem")
+	private Usuario usuario;
+	
 	public long getId() {
 		return id;
 	}
@@ -62,14 +66,14 @@ public class Postagem {
 		this.texto = texto;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getData() {
+		return data;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setData(Date data) {
+		this.data = data;
 	}
-
+	
 	public Tema getTema() {
 		return tema;
 	}
@@ -78,4 +82,11 @@ public class Postagem {
 		this.tema = tema;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 }
